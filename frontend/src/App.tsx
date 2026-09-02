@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { AddTaskForm } from "./components/AddTaskForm";
+import { BackgroundMusic } from "./components/BackgroundMusic";
 import { Dashboard } from "./components/Dashboard";
 import { GoogleLoginButton } from "./components/GoogleLoginButton";
 import { Header } from "./components/Header";
@@ -161,6 +162,7 @@ export default function App() {
   if (!isAuthed) {
     return (
       <div className="flex min-h-screen flex-col items-center justify-center gap-6 px-6 text-center">
+        <BackgroundMusic />
         <NeonOrb />
         <div>
           <h1 className="text-3xl font-semibold text-white neon-text text-cyan-300">Kunlik reja</h1>
@@ -180,6 +182,7 @@ export default function App() {
 
   return (
     <div className="min-h-screen pb-24">
+      <BackgroundMusic />
       <Header dateKey={todayKey} done={progress.done} total={progress.total} user={user} onLogout={handleLogout} />
       <TabBar active={tab} onChange={setTab} />
 
