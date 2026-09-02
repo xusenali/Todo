@@ -17,6 +17,7 @@ import {
   getStoredUser,
   getToken,
   loginWithGoogle,
+  pingBackend,
   toggleTask,
   type AuthUser,
   type MonthTask,
@@ -37,6 +38,13 @@ export default function App() {
   const [error, setError] = useState<string | null>(null);
 
   const isAuthed = Boolean(user && getToken());
+
+  // Render bepul tarifdagi backend 15 daqiqa harakatsizlikdan keyin uxlab qolmasligi uchun.
+  useEffect(() => {
+    pingBackend();
+    const interval = setInterval(pingBackend, 10 * 60_000);
+    return () => clearInterval(interval);
+  }, []);
 
   const loadCurrentMonth = useCallback(async (month: string) => {
     setLoading(true);

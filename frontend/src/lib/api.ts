@@ -63,6 +63,10 @@ async function request<T>(path: string, options: RequestInit = {}): Promise<T> {
   return res.json() as Promise<T>;
 }
 
+export function pingBackend(): Promise<void> {
+  return fetch(`${API_URL}/health`).then(() => undefined).catch(() => undefined);
+}
+
 export async function loginWithGoogle(
   credential: string
 ): Promise<{ token: string; user: AuthUser }> {
