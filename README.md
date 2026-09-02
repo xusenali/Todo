@@ -42,11 +42,15 @@ npm run dev               # http://localhost:5173
 2. "Authorized JavaScript origins" ga frontend domenini qo'shing (masalan `http://localhost:5173` va production domeningiz).
 3. Client ID ni `backend/.env` (`GOOGLE_CLIENT_ID`) va `frontend/.env` (`VITE_GOOGLE_CLIENT_ID`) ga qo'ying.
 
-## Deploy
+## Deploy (joriy holat)
 
-- **Frontend** — Vercel (static/Vite build, PWA ishlaydi).
-- **Backend** — doimiy ishlaydigan Node server kerak (Vercel serverless SQLite/uzoq muddatli holatni saqlamaydi, lekin bu loyiha Postgres ishlatgani uchun Vercel serverless functionga ham moslash mumkin). Oddiy va bepul variant: Render.com yoki Railway — GitHub repo ulanadi, `DATABASE_URL`, `JWT_SECRET`, `GOOGLE_CLIENT_ID`, `CORS_ORIGIN` environment variable qilib qo'yiladi.
-- Backend deploy qilingandan keyin frontend'dagi `VITE_API_URL` ni backend hosting manziliga (masalan `https://kunlik-reja-backend.onrender.com/api`) o'zgartirib qayta deploy qiling.
+- **Frontend** — Vercel: https://todo-7eq8.vercel.app (GitHub `main` branchiga push qilinganda avtomatik qayta deploy bo'ladi)
+- **Backend** — Render.com (bepul tarif, karta talab qilmaydi): https://kunlik-reja-backend.onrender.com — GitHub repo ulangan, `rootDir: backend`, environment variable'lar (`DATABASE_URL`, `JWT_SECRET`, `GOOGLE_CLIENT_ID`, `CORS_ORIGIN`) Render dashboardida sozlangan
+- **Ma'lumotlar bazasi** — Neon Postgres (bepul tarif)
+
+⚠️ Render'ning bepul tarifi 15 daqiqa foydalanilmasa servisni "uxlatadi" — keyingi so'rovda birinchi javob ~30-50 soniya sekinroq keladi, keyin normal tezlikda ishlaydi. Bu ma'lumot yo'qolishiga olib kelmaydi, faqat vaqtinchalik sekinlik.
+
+Backend manzili o'zgarsa, Vercel loyihasidagi `VITE_API_URL` environment variable'ni yangilab, qayta deploy qilish kerak.
 
 ## Telefon menyusiga qo'shish (PWA)
 
