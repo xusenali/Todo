@@ -9,6 +9,15 @@ export interface Task {
   done: boolean;
 }
 
+export interface MonthTask {
+  id: string;
+  title: string;
+  time: string | null;
+  order: number;
+  createdAt: string;
+  completions: Record<string, boolean>;
+}
+
 export interface AuthUser {
   id: number;
   firstName: string;
@@ -68,6 +77,10 @@ export async function loginWithGoogle(
 
 export function fetchTasks(date: string): Promise<Task[]> {
   return request<Task[]>(`/tasks?date=${date}`);
+}
+
+export function fetchTasksMonth(month: string): Promise<MonthTask[]> {
+  return request<MonthTask[]>(`/tasks/month?month=${month}`);
 }
 
 export function createTask(title: string, time?: string): Promise<Task> {

@@ -34,6 +34,42 @@ tasksRouter.get("/", async (req: AuthedRequest, res) => {
   res.json(result);
 });
 
+const MONTH_RE = /^\d{4}-\d{2}$/;
+
+// GET /api/tasks/month?month=YYYY-MM -> vazifalar + shu oyning har kuni uchun bajarilganlik xaritasi
+tasksRouter.get("/month", async (req: AuthedRequest, res) => {
+  const month = req.query.month;
+  if (typeof month !== "string" || !MONTH_RE.test(month)) {
+    return res.status(400).json({ error: "month=YYYY-MM kerak" });
+  }
+
+  const [year, mon] = month.split("-").map(Number);
+  const daysInMonth = new Date(year, mon, 0).getDate();
+  const monthStart = `${month}-01`;
+  const monthEnd = `${month}-${String(daysInMonth).padStart(2, "0")}`;
+
+  const tasks = await prisma.task.findMany({
+    where: { userId: req.userId },
+    orderBy: { order: "asc" },
+    include: { completions: { where: { date: { gte: monthStart, lte: monthEnd } } } },
+  });
+
+  const result = tasks.map((t) => {
+    const completions: Record<string, boolean> = {};
+    for (const c of t.completions) completions[c.date] = c.done;
+    return {
+      id: t.id,
+      title: t.title,
+      time: t.time,
+      order: t.order,
+      createdAt: t.createdAt,
+      completions,
+    };
+  });
+
+  res.json(result);
+});
+
 // POST /api/tasks  { title, time? }
 tasksRouter.post("/", async (req: AuthedRequest, res) => {
   const { title, time } = req.body as { title?: string; time?: string };

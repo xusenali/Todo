@@ -1,39 +1,46 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { AddTaskForm } from "./components/AddTaskForm";
-import { Header } from "./components/Header";
-import { TaskList } from "./components/TaskList";
+import { Dashboard } from "./components/Dashboard";
 import { GoogleLoginButton } from "./components/GoogleLoginButton";
+import { Header } from "./components/Header";
+import { MonthGrid } from "./components/MonthGrid";
+import { TabBar, type TabKey } from "./components/TabBar";
+import { TaskList } from "./components/TaskList";
 import {
   clearSession,
   createTask,
   deleteTask,
-  fetchTasks,
+  fetchTasksMonth,
   getStoredUser,
   getToken,
   loginWithGoogle,
   toggleTask,
   type AuthUser,
-  type Task,
+  type MonthTask,
 } from "./lib/api";
-import { getTodayKey } from "./lib/date";
+import { getMonthKey, getTodayKey, shiftMonth } from "./lib/date";
 
 const GOOGLE_CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID ?? "";
 
 export default function App() {
   const [user, setUser] = useState<AuthUser | null>(() => getStoredUser());
-  const [dateKey, setDateKey] = useState(() => getTodayKey());
-  const [tasks, setTasks] = useState<Task[]>([]);
+  const [todayKey, setTodayKey] = useState(() => getTodayKey());
+  const [currentMonthKey, setCurrentMonthKey] = useState(() => getMonthKey());
+  const [monthTasks, setMonthTasks] = useState<MonthTask[]>([]);
+  const [viewMonth, setViewMonth] = useState(currentMonthKey);
+  const [viewMonthTasks, setViewMonthTasks] = useState<MonthTask[]>([]);
+  const [tab, setTab] = useState<TabKey>("today");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   const isAuthed = Boolean(user && getToken());
 
-  const loadTasks = useCallback(async (date: string) => {
+  const loadCurrentMonth = useCallback(async (month: string) => {
     setLoading(true);
     setError(null);
     try {
-      const data = await fetchTasks(date);
-      setTasks(data);
+      const data = await fetchTasksMonth(month);
+      setMonthTasks(data);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Xatolik yuz berdi");
     } finally {
@@ -42,14 +49,34 @@ export default function App() {
   }, []);
 
   useEffect(() => {
-    if (isAuthed) loadTasks(dateKey);
-  }, [isAuthed, dateKey, loadTasks]);
+    if (isAuthed) loadCurrentMonth(currentMonthKey);
+  }, [isAuthed, currentMonthKey, loadCurrentMonth]);
 
-  // Sahifa ochiq turgan holda yarim tundan o'tib ketsa, sanani yangilash.
+  // Ko'rilayotgan oy joriy oy bilan bir xil bo'lsa, alohida so'rov yubormay shu ma'lumotdan foydalanamiz.
+  useEffect(() => {
+    if (!isAuthed) return;
+    if (viewMonth === currentMonthKey) {
+      setViewMonthTasks(monthTasks);
+      return;
+    }
+    let cancelled = false;
+    fetchTasksMonth(viewMonth)
+      .then((data) => {
+        if (!cancelled) setViewMonthTasks(data);
+      })
+      .catch((err) => setError(err instanceof Error ? err.message : "Xatolik yuz berdi"));
+    return () => {
+      cancelled = true;
+    };
+  }, [isAuthed, viewMonth, currentMonthKey, monthTasks]);
+
+  // Sahifa ochiq turgan holda yarim tundan o'tib ketsa, sana/oyni yangilash.
   useEffect(() => {
     const interval = setInterval(() => {
-      const current = getTodayKey();
-      setDateKey((prev) => (prev === current ? prev : current));
+      const nowKey = getTodayKey();
+      const nowMonth = getMonthKey();
+      setTodayKey((prev) => (prev === nowKey ? prev : nowKey));
+      setCurrentMonthKey((prev) => (prev === nowMonth ? prev : nowMonth));
     }, 60_000);
     return () => clearInterval(interval);
   }, []);
@@ -67,43 +94,68 @@ export default function App() {
   function handleLogout() {
     clearSession();
     setUser(null);
-    setTasks([]);
+    setMonthTasks([]);
   }
 
   async function handleAdd(title: string, time?: string) {
     try {
       const task = await createTask(title, time);
-      setTasks((prev) => [...prev, task]);
+      setMonthTasks((prev) => [...prev, { ...task, completions: {} }]);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Vazifa qo'shilmadi");
     }
   }
 
-  async function handleToggle(id: string) {
-    setTasks((prev) => prev.map((t) => (t.id === id ? { ...t, done: !t.done } : t)));
+  async function handleToggleToday(id: string) {
+    setMonthTasks((prev) =>
+      prev.map((t) =>
+        t.id === id
+          ? { ...t, completions: { ...t.completions, [todayKey]: !t.completions[todayKey] } }
+          : t
+      )
+    );
     try {
-      await toggleTask(id, dateKey);
+      await toggleTask(id, todayKey);
     } catch (err) {
-      setTasks((prev) => prev.map((t) => (t.id === id ? { ...t, done: !t.done } : t)));
+      setMonthTasks((prev) =>
+        prev.map((t) =>
+          t.id === id
+            ? { ...t, completions: { ...t.completions, [todayKey]: !t.completions[todayKey] } }
+            : t
+        )
+      );
       setError(err instanceof Error ? err.message : "Holatni o'zgartirib bo'lmadi");
     }
   }
 
   async function handleDelete(id: string) {
-    const prevTasks = tasks;
-    setTasks((prev) => prev.filter((t) => t.id !== id));
+    const prev = monthTasks;
+    setMonthTasks((p) => p.filter((t) => t.id !== id));
     try {
       await deleteTask(id);
     } catch (err) {
-      setTasks(prevTasks);
+      setMonthTasks(prev);
       setError(err instanceof Error ? err.message : "O'chirib bo'lmadi");
     }
   }
 
+  const todayTasks = useMemo(
+    () =>
+      monthTasks.map((t) => ({
+        id: t.id,
+        title: t.title,
+        time: t.time,
+        order: t.order,
+        createdAt: t.createdAt,
+        done: t.completions[todayKey] === true,
+      })),
+    [monthTasks, todayKey]
+  );
+
   const progress = useMemo(() => {
-    const done = tasks.filter((t) => t.done).length;
-    return { done, total: tasks.length };
-  }, [tasks]);
+    const done = todayTasks.filter((t) => t.done).length;
+    return { done, total: todayTasks.length };
+  }, [todayTasks]);
 
   if (!isAuthed) {
     return (
@@ -124,7 +176,8 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-slate-950 pb-24">
-      <Header dateKey={dateKey} done={progress.done} total={progress.total} user={user} onLogout={handleLogout} />
+      <Header dateKey={todayKey} done={progress.done} total={progress.total} user={user} onLogout={handleLogout} />
+      <TabBar active={tab} onChange={setTab} />
 
       {error && (
         <p className="mx-4 mb-3 rounded-lg bg-red-500/10 px-3 py-2 text-sm text-red-400">{error}</p>
@@ -133,14 +186,25 @@ export default function App() {
       <main className="px-4">
         {loading ? (
           <p className="py-10 text-center text-slate-500">Yuklanmoqda...</p>
+        ) : tab === "today" ? (
+          <TaskList tasks={todayTasks} onToggle={handleToggleToday} onDelete={handleDelete} />
+        ) : tab === "grid" ? (
+          <MonthGrid
+            monthKey={viewMonth}
+            tasks={viewMonthTasks}
+            onNavigate={(delta) => setViewMonth((m) => shiftMonth(m, delta))}
+            onToggleToday={handleToggleToday}
+          />
         ) : (
-          <TaskList tasks={tasks} onToggle={handleToggle} onDelete={handleDelete} />
+          <Dashboard monthKey={currentMonthKey} tasks={monthTasks} />
         )}
       </main>
 
-      <div className="fixed bottom-0 left-0 right-0 border-t border-slate-800 bg-slate-950/95 backdrop-blur">
-        <AddTaskForm onAdd={handleAdd} />
-      </div>
+      {tab === "today" && (
+        <div className="fixed bottom-0 left-0 right-0 border-t border-slate-800 bg-slate-950/95 backdrop-blur">
+          <AddTaskForm onAdd={handleAdd} />
+        </div>
+      )}
     </div>
   );
 }
