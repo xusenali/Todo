@@ -16,13 +16,13 @@ export function Header({ dateKey, done, total, user, onLogout }: Props) {
     <header className="flex flex-col gap-3 px-4 pt-6 pb-4">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-xl font-semibold text-white neon-text text-cyan-300">Kunlik reja</h1>
+          <h1 className="text-xl font-semibold text-white neon-text text-red-400">Kunlik reja</h1>
           <p className="text-sm text-slate-400 capitalize">{formatDateHuman(dateKey)}</p>
         </div>
         {user && (
           <button
             onClick={onLogout}
-            className="flex items-center gap-2 rounded-full bg-slate-800/80 px-3 py-1.5 text-sm text-slate-200 ring-1 ring-cyan-500/20 hover:ring-cyan-400/50"
+            className="flex items-center gap-2 rounded-full bg-slate-800/80 px-3 py-1.5 text-sm text-slate-200 ring-1 ring-red-500/20 hover:ring-red-400/50"
           >
             {user.photoUrl && (
               <img src={user.photoUrl} alt="" className="h-6 w-6 rounded-full" />
@@ -44,7 +44,7 @@ export function Header({ dateKey, done, total, user, onLogout }: Props) {
             className="neon-glow-cyan h-full rounded-full transition-all"
             style={{
               width: `${percent}%`,
-              background: "linear-gradient(90deg, var(--neon-cyan), var(--neon-violet))",
+              background: "linear-gradient(90deg, var(--neon-red-deep), var(--neon-red))",
             }}
           />
         </div>

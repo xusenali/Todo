@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { AddTaskForm } from "./components/AddTaskForm";
 import { BackgroundMusic } from "./components/BackgroundMusic";
+import { BloodDrip } from "./components/BloodDrip";
 import { Dashboard } from "./components/Dashboard";
 import { GoogleLoginButton } from "./components/GoogleLoginButton";
 import { Header } from "./components/Header";
@@ -164,8 +165,9 @@ export default function App() {
       <div className="flex min-h-screen flex-col items-center justify-center gap-6 px-6 text-center">
         <BackgroundMusic />
         <NeonOrb />
-        <div>
-          <h1 className="text-3xl font-semibold text-white neon-text text-cyan-300">Kunlik reja</h1>
+        <div className="relative">
+          <BloodDrip className="absolute left-1/2 top-full h-16 w-24 -translate-x-1/2" count={3} />
+          <h1 className="text-3xl font-semibold text-white neon-text text-red-400">Kunlik reja</h1>
           <p className="mt-2 text-slate-400">Davom etish uchun kiring</p>
         </div>
         {GOOGLE_CLIENT_ID ? (
@@ -208,7 +210,7 @@ export default function App() {
       </main>
 
       {tab === "today" && (
-        <div className="fixed bottom-0 left-0 right-0 border-t border-cyan-500/20 bg-slate-950/90 backdrop-blur">
+        <div className="fixed bottom-0 left-0 right-0 border-t border-red-500/20 bg-slate-950/90 backdrop-blur">
           <AddTaskForm onAdd={handleAdd} />
         </div>
       )}

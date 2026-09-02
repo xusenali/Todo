@@ -51,7 +51,7 @@ export function BackgroundMusic() {
       <button
         onClick={toggleMute}
         aria-label={muted ? "Musiqani yoqish" : "Musiqani o'chirish"}
-        className="fixed bottom-4 right-4 z-50 flex h-10 w-10 items-center justify-center rounded-full bg-slate-900/80 text-slate-300 ring-1 ring-cyan-500/30 backdrop-blur neon-glow-cyan"
+        className="fixed bottom-4 right-4 z-50 flex h-10 w-10 items-center justify-center rounded-full bg-slate-900/80 text-slate-300 ring-1 ring-red-500/30 backdrop-blur neon-glow-cyan"
       >
         {muted ? (
           <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none">

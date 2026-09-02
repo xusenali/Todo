@@ -13,16 +13,16 @@ export function TaskItem({ task, onToggle, onDelete }: Props) {
         onClick={() => onToggle(task.id)}
         aria-label={task.done ? "Bajarilmagan deb belgilash" : "Bajarilgan deb belgilash"}
         className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-full border-2 transition-all ${
-          task.done ? "neon-glow-cyan border-transparent" : "border-slate-500"
+          task.done ? "neon-glow-cyan border-red-400" : "border-red-500/40"
         }`}
         style={
           task.done
-            ? { background: "linear-gradient(135deg, var(--neon-cyan), var(--neon-violet))" }
+            ? { background: "linear-gradient(135deg, var(--neon-red-deep), var(--neon-red))" }
             : undefined
         }
       >
         {task.done && (
-          <svg viewBox="0 0 24 24" className="h-4 w-4 text-slate-950" fill="none">
+          <svg viewBox="0 0 24 24" className="h-4 w-4 text-white" fill="none">
             <path d="M5 13l4 4L19 7" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
           </svg>
         )}

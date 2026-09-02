@@ -25,7 +25,7 @@ export function TabBar({ active, onChange }: Props) {
           }`}
           style={
             active === tab.key
-              ? { background: "linear-gradient(90deg, var(--neon-cyan), var(--neon-violet))" }
+              ? { background: "linear-gradient(90deg, var(--neon-red-deep), var(--neon-red))" }
               : undefined
           }
         >

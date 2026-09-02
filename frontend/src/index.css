@@ -1,10 +1,10 @@
 @import "tailwindcss";
 
 :root {
-  --neon-cyan: #22d3ee;
-  --neon-pink: #f472e0;
-  --neon-violet: #a855f7;
-  --bg-void: #05050a;
+  --neon-red: #ff2440;
+  --neon-red-bright: #ff5468;
+  --neon-red-deep: #6e0b18;
+  --bg-void: #050203;
 }
 
 html, body, #root {
@@ -14,9 +14,9 @@ html, body, #root {
 body {
   background-color: var(--bg-void);
   background-image:
-    radial-gradient(ellipse 60% 40% at 15% 0%, rgba(168, 85, 247, 0.20), transparent 60%),
-    radial-gradient(ellipse 55% 40% at 100% 20%, rgba(34, 211, 238, 0.16), transparent 60%),
-    radial-gradient(ellipse 50% 35% at 20% 100%, rgba(244, 114, 224, 0.12), transparent 60%);
+    radial-gradient(ellipse 55% 35% at 15% 0%, rgba(255, 36, 64, 0.16), transparent 60%),
+    radial-gradient(ellipse 50% 35% at 100% 15%, rgba(110, 11, 24, 0.28), transparent 60%),
+    radial-gradient(ellipse 45% 30% at 25% 100%, rgba(255, 36, 64, 0.10), transparent 60%);
   background-attachment: fixed;
 }
 
@@ -25,15 +25,15 @@ body {
 }
 
 .neon-border {
-  box-shadow: 0 0 0 1px rgba(34, 211, 238, 0.4), 0 0 16px rgba(34, 211, 238, 0.35), 0 0 36px rgba(168, 85, 247, 0.2);
+  box-shadow: 0 0 0 1px rgba(255, 36, 64, 0.35), 0 0 16px rgba(255, 36, 64, 0.3), 0 0 34px rgba(110, 11, 24, 0.35);
 }
 
 .neon-glow-cyan {
-  box-shadow: 0 0 14px rgba(34, 211, 238, 0.55), 0 0 32px rgba(34, 211, 238, 0.25);
+  box-shadow: 0 0 14px rgba(255, 36, 64, 0.55), 0 0 30px rgba(255, 36, 64, 0.25);
 }
 
 .neon-glow-pink {
-  box-shadow: 0 0 14px rgba(244, 114, 224, 0.55), 0 0 32px rgba(168, 85, 247, 0.25);
+  box-shadow: 0 0 14px rgba(255, 84, 104, 0.5), 0 0 30px rgba(110, 11, 24, 0.35);
 }
 
 @keyframes orb-spin {
@@ -76,4 +76,28 @@ body {
 
 .neon-orb-core {
   animation: orb-core-pulse 3s ease-in-out infinite;
+}
+
+/* Nozik "tomchilayotgan" aksent — kam va past kontrastda ishlatiladi */
+@keyframes drip-fall {
+  0%   { transform: translateY(-6px) scaleY(0.6); opacity: 0; }
+  12%  { opacity: 0.9; }
+  80%  { opacity: 0.7; }
+  100% { transform: translateY(64px) scaleY(1); opacity: 0; }
+}
+
+.drip-track {
+  position: relative;
+  overflow: hidden;
+}
+
+.drip {
+  position: absolute;
+  top: 0;
+  width: 2px;
+  height: 12px;
+  border-radius: 1px 1px 3px 3px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.85), var(--neon-red) 45%, var(--neon-red-deep) 100%);
+  box-shadow: 0 0 5px rgba(255, 36, 64, 0.7);
+  animation: drip-fall 3.2s ease-in infinite;
 }
