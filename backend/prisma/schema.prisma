@@ -1,0 +1,46 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  googleId  String   @unique
+  email     String?
+  firstName String
+  lastName  String?
+  username  String?
+  photoUrl  String?
+  createdAt DateTime @default(now())
+  tasks     Task[]
+}
+
+model Task {
+  id          String            @id @default(uuid())
+  userId      Int
+  user        User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+  title       String
+  time        String?
+  order       Int
+  createdAt   DateTime          @default(now())
+  completions DailyCompletion[]
+
+  @@index([userId])
+}
+
+// Kunga bog'liq bajarilganlik holati. `date` — "YYYY-MM-DD" (foydalanuvchi local sanasi).
+model DailyCompletion {
+  id        String   @id @default(uuid())
+  taskId    String
+  task      Task     @relation(fields: [taskId], references: [id], onDelete: Cascade)
+  date      String
+  done      Boolean  @default(true)
+  updatedAt DateTime @updatedAt
+
+  @@unique([taskId, date])
+  @@index([date])
+}
