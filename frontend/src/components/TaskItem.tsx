@@ -8,16 +8,21 @@ interface Props {
 
 export function TaskItem({ task, onToggle, onDelete }: Props) {
   return (
-    <li className="flex items-center gap-3 rounded-xl bg-slate-800/60 px-4 py-3">
+    <li className="flex items-center gap-3 rounded-xl bg-slate-800/60 px-4 py-3 ring-1 ring-white/5">
       <button
         onClick={() => onToggle(task.id)}
         aria-label={task.done ? "Bajarilmagan deb belgilash" : "Bajarilgan deb belgilash"}
-        className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-full border-2 transition-colors ${
-          task.done ? "border-green-500 bg-green-500" : "border-slate-500"
+        className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-full border-2 transition-all ${
+          task.done ? "neon-glow-cyan border-transparent" : "border-slate-500"
         }`}
+        style={
+          task.done
+            ? { background: "linear-gradient(135deg, var(--neon-cyan), var(--neon-violet))" }
+            : undefined
+        }
       >
         {task.done && (
-          <svg viewBox="0 0 24 24" className="h-4 w-4 text-slate-900" fill="none">
+          <svg viewBox="0 0 24 24" className="h-4 w-4 text-slate-950" fill="none">
             <path d="M5 13l4 4L19 7" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
           </svg>
         )}

@@ -24,18 +24,19 @@ export function AddTaskForm({ onAdd }: Props) {
         value={title}
         onChange={(e) => setTitle(e.target.value)}
         placeholder="Yangi vazifa..."
-        className="min-w-0 flex-1 rounded-xl bg-slate-800 px-4 py-2.5 text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-green-500"
+        className="min-w-0 flex-1 rounded-xl bg-slate-800 px-4 py-2.5 text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-cyan-400"
       />
       <input
         type="time"
         value={time}
         onChange={(e) => setTime(e.target.value)}
-        className="w-28 rounded-xl bg-slate-800 px-2 py-2.5 text-white focus:outline-none focus:ring-2 focus:ring-green-500"
+        className="w-28 rounded-xl bg-slate-800 px-2 py-2.5 text-white focus:outline-none focus:ring-2 focus:ring-cyan-400"
       />
       <button
         type="submit"
         disabled={!title.trim()}
-        className="rounded-xl bg-green-500 px-4 py-2.5 font-medium text-slate-900 disabled:opacity-40"
+        className="neon-glow-cyan rounded-xl px-4 py-2.5 font-medium text-slate-950 transition-opacity disabled:opacity-40"
+        style={{ background: "linear-gradient(90deg, var(--neon-cyan), var(--neon-violet))" }}
       >
         Qo'shish
       </button>

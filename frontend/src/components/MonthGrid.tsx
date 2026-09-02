@@ -23,7 +23,7 @@ export function MonthGrid({ monthKey, tasks, onNavigate, onToggleToday }: Props)
             <path d="M15 6l-6 6 6 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
           </svg>
         </button>
-        <h2 className="text-base font-medium capitalize text-white">{formatMonthHuman(monthKey)}</h2>
+        <h2 className="text-base font-medium capitalize text-white neon-text text-violet-300">{formatMonthHuman(monthKey)}</h2>
         <button
           onClick={() => onNavigate(1)}
           aria-label="Keyingi oy"
@@ -38,7 +38,7 @@ export function MonthGrid({ monthKey, tasks, onNavigate, onToggleToday }: Props)
       {tasks.length === 0 ? (
         <p className="px-1 py-8 text-center text-sm text-slate-500">Hali vazifa yo'q</p>
       ) : (
-        <div className="overflow-x-auto rounded-xl border border-slate-800">
+        <div className="overflow-x-auto rounded-xl border border-cyan-500/10">
           <table className="border-collapse text-sm">
             <thead>
               <tr>
@@ -49,7 +49,7 @@ export function MonthGrid({ monthKey, tasks, onNavigate, onToggleToday }: Props)
                   <th
                     key={d.dateKey}
                     className={`w-9 min-w-9 px-0 py-1 text-center font-normal ${
-                      d.isToday ? "text-green-400" : d.isWeekend ? "text-slate-500" : "text-slate-500"
+                      d.isToday ? "text-cyan-300" : "text-slate-500"
                     }`}
                   >
                     <div className="flex flex-col items-center leading-tight">
@@ -70,16 +70,21 @@ export function MonthGrid({ monthKey, tasks, onNavigate, onToggleToday }: Props)
                     const done = task.completions[d.dateKey] === true;
                     if (d.isToday) {
                       return (
-                        <td key={d.dateKey} className="bg-green-500/10 text-center">
+                        <td key={d.dateKey} className="bg-cyan-500/10 text-center">
                           <button
                             onClick={() => onToggleToday(task.id)}
                             aria-label={done ? "Bajarilmagan deb belgilash" : "Bajarilgan deb belgilash"}
-                            className={`mx-auto flex h-5 w-5 items-center justify-center rounded border-2 ${
-                              done ? "border-green-500 bg-green-500" : "border-green-500/60"
+                            className={`mx-auto flex h-5 w-5 items-center justify-center rounded border-2 transition-all ${
+                              done ? "neon-glow-cyan border-transparent" : "border-cyan-400/60"
                             }`}
+                            style={
+                              done
+                                ? { background: "linear-gradient(135deg, var(--neon-cyan), var(--neon-violet))" }
+                                : undefined
+                            }
                           >
                             {done && (
-                              <svg viewBox="0 0 24 24" className="h-3 w-3 text-slate-900" fill="none">
+                              <svg viewBox="0 0 24 24" className="h-3 w-3 text-slate-950" fill="none">
                                 <path d="M5 13l4 4L19 7" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
                               </svg>
                             )}
@@ -93,7 +98,7 @@ export function MonthGrid({ monthKey, tasks, onNavigate, onToggleToday }: Props)
                     return (
                       <td key={d.dateKey} className="text-center">
                         {done ? (
-                          <span className="mx-auto flex h-5 w-5 items-center justify-center rounded border-2 border-slate-600 bg-slate-700 text-slate-300">
+                          <span className="mx-auto flex h-5 w-5 items-center justify-center rounded border-2 border-violet-400/40 bg-violet-500/25 text-violet-200">
                             <svg viewBox="0 0 24 24" className="h-3 w-3" fill="none">
                               <path d="M5 13l4 4L19 7" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
                             </svg>

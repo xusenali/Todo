@@ -4,6 +4,7 @@ import { Dashboard } from "./components/Dashboard";
 import { GoogleLoginButton } from "./components/GoogleLoginButton";
 import { Header } from "./components/Header";
 import { MonthGrid } from "./components/MonthGrid";
+import { NeonOrb } from "./components/NeonOrb";
 import { TabBar, type TabKey } from "./components/TabBar";
 import { TaskList } from "./components/TaskList";
 import {
@@ -159,13 +160,16 @@ export default function App() {
 
   if (!isAuthed) {
     return (
-      <div className="flex min-h-screen flex-col items-center justify-center gap-6 bg-slate-950 px-6 text-center">
+      <div className="flex min-h-screen flex-col items-center justify-center gap-6 px-6 text-center">
+        <NeonOrb />
         <div>
-          <h1 className="text-2xl font-semibold text-white">Kunlik reja</h1>
+          <h1 className="text-3xl font-semibold text-white neon-text text-cyan-300">Kunlik reja</h1>
           <p className="mt-2 text-slate-400">Davom etish uchun kiring</p>
         </div>
         {GOOGLE_CLIENT_ID ? (
-          <GoogleLoginButton clientId={GOOGLE_CLIENT_ID} onCredential={handleGoogleAuth} />
+          <div className="rounded-2xl bg-slate-900/60 p-3 neon-border backdrop-blur">
+            <GoogleLoginButton clientId={GOOGLE_CLIENT_ID} onCredential={handleGoogleAuth} />
+          </div>
         ) : (
           <p className="text-sm text-red-400">VITE_GOOGLE_CLIENT_ID sozlanmagan</p>
         )}
@@ -175,7 +179,7 @@ export default function App() {
   }
 
   return (
-    <div className="min-h-screen bg-slate-950 pb-24">
+    <div className="min-h-screen pb-24">
       <Header dateKey={todayKey} done={progress.done} total={progress.total} user={user} onLogout={handleLogout} />
       <TabBar active={tab} onChange={setTab} />
 
@@ -201,7 +205,7 @@ export default function App() {
       </main>
 
       {tab === "today" && (
-        <div className="fixed bottom-0 left-0 right-0 border-t border-slate-800 bg-slate-950/95 backdrop-blur">
+        <div className="fixed bottom-0 left-0 right-0 border-t border-cyan-500/20 bg-slate-950/90 backdrop-blur">
           <AddTaskForm onAdd={handleAdd} />
         </div>
       )}

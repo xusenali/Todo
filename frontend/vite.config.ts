@@ -18,8 +18,8 @@ export default defineConfig({
         name: 'Kunlik reja',
         short_name: 'Kunlik reja',
         description: 'Har kungi vazifalaringizni kuzating',
-        theme_color: '#0f172a',
-        background_color: '#0f172a',
+        theme_color: '#05050a',
+        background_color: '#05050a',
         display: 'standalone',
         start_url: '/',
         icons: [

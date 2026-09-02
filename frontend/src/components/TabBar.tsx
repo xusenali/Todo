@@ -18,9 +18,16 @@ export function TabBar({ active, onChange }: Props) {
         <button
           key={tab.key}
           onClick={() => onChange(tab.key)}
-          className={`flex-1 rounded-lg py-2 text-sm font-medium transition-colors ${
-            active === tab.key ? "bg-green-500 text-slate-900" : "bg-slate-800 text-slate-300"
+          className={`flex-1 rounded-lg py-2 text-sm font-medium transition-all ${
+            active === tab.key
+              ? "neon-glow-cyan text-slate-950"
+              : "bg-slate-800/80 text-slate-300"
           }`}
+          style={
+            active === tab.key
+              ? { background: "linear-gradient(90deg, var(--neon-cyan), var(--neon-violet))" }
+              : undefined
+          }
         >
           {tab.label}
         </button>

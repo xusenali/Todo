@@ -1,9 +1,79 @@
 @import "tailwindcss";
 
+:root {
+  --neon-cyan: #22d3ee;
+  --neon-pink: #f472e0;
+  --neon-violet: #a855f7;
+  --bg-void: #05050a;
+}
+
 html, body, #root {
   height: 100%;
 }
 
 body {
-  background-color: #0f172a;
+  background-color: var(--bg-void);
+  background-image:
+    radial-gradient(ellipse 60% 40% at 15% 0%, rgba(168, 85, 247, 0.20), transparent 60%),
+    radial-gradient(ellipse 55% 40% at 100% 20%, rgba(34, 211, 238, 0.16), transparent 60%),
+    radial-gradient(ellipse 50% 35% at 20% 100%, rgba(244, 114, 224, 0.12), transparent 60%);
+  background-attachment: fixed;
+}
+
+.neon-text {
+  text-shadow: 0 0 8px currentColor, 0 0 22px currentColor;
+}
+
+.neon-border {
+  box-shadow: 0 0 0 1px rgba(34, 211, 238, 0.4), 0 0 16px rgba(34, 211, 238, 0.35), 0 0 36px rgba(168, 85, 247, 0.2);
+}
+
+.neon-glow-cyan {
+  box-shadow: 0 0 14px rgba(34, 211, 238, 0.55), 0 0 32px rgba(34, 211, 238, 0.25);
+}
+
+.neon-glow-pink {
+  box-shadow: 0 0 14px rgba(244, 114, 224, 0.55), 0 0 32px rgba(168, 85, 247, 0.25);
+}
+
+@keyframes orb-spin {
+  from { transform: rotateX(62deg) rotateZ(0deg); }
+  to   { transform: rotateX(62deg) rotateZ(360deg); }
+}
+
+@keyframes orb-spin-reverse {
+  from { transform: rotateX(62deg) rotateY(180deg) rotateZ(360deg); }
+  to   { transform: rotateX(62deg) rotateY(180deg) rotateZ(0deg); }
+}
+
+@keyframes orb-core-pulse {
+  0%, 100% { transform: scale(1); filter: brightness(1); }
+  50% { transform: scale(1.12); filter: brightness(1.35); }
+}
+
+@keyframes orb-float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+}
+
+.neon-orb-scene {
+  perspective: 600px;
+}
+
+.neon-orb-float {
+  animation: orb-float 5s ease-in-out infinite;
+}
+
+.neon-orb-ring {
+  transform-style: preserve-3d;
+  animation: orb-spin 7s linear infinite;
+}
+
+.neon-orb-ring-alt {
+  transform-style: preserve-3d;
+  animation: orb-spin-reverse 9s linear infinite;
+}
+
+.neon-orb-core {
+  animation: orb-core-pulse 3s ease-in-out infinite;
 }

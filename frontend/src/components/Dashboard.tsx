@@ -26,27 +26,30 @@ export function Dashboard({ monthKey, tasks }: Props) {
       <div>
         <p className="text-sm text-slate-400 capitalize">{formatMonthHuman(monthKey)} — umumiy natija</p>
         <div className="mt-1 flex items-end gap-2">
-          <span className="text-3xl font-semibold text-white">{pct(overall.rate)}</span>
+          <span className="text-3xl font-semibold text-white neon-text text-cyan-300">{pct(overall.rate)}</span>
           <span className="mb-1 text-sm text-slate-500">
             ({overall.totalDone}/{overall.totalPossible} bajarildi)
           </span>
         </div>
         <div className="mt-2 h-2 w-full overflow-hidden rounded-full bg-slate-800">
-          <div className="h-full rounded-full bg-green-500" style={{ width: pct(overall.rate) }} />
+          <div
+            className="neon-glow-cyan h-full rounded-full"
+            style={{ width: pct(overall.rate), background: "linear-gradient(90deg, var(--neon-cyan), var(--neon-violet))" }}
+          />
         </div>
       </div>
 
       {stats.length > 1 && (
         <div className="grid grid-cols-2 gap-3">
-          <div className="rounded-xl bg-slate-800/60 p-3">
+          <div className="rounded-xl bg-slate-800/60 p-3 ring-1 ring-cyan-500/15">
             <p className="text-xs text-slate-400">Eng yaxshi ketyapti</p>
             <p className="mt-1 truncate text-sm font-medium text-white">{best.title}</p>
-            <p className="text-xs text-green-400">{pct(best.rate)}</p>
+            <p className="text-xs text-cyan-300">{pct(best.rate)}</p>
           </div>
-          <div className="rounded-xl bg-slate-800/60 p-3">
+          <div className="rounded-xl bg-slate-800/60 p-3 ring-1 ring-pink-500/15">
             <p className="text-xs text-slate-400">Ko'p qoldirilyapti</p>
             <p className="mt-1 truncate text-sm font-medium text-white">{worst.title}</p>
-            <p className="text-xs text-red-400">{pct(worst.rate)}</p>
+            <p className="text-xs text-pink-400">{pct(worst.rate)}</p>
           </div>
         </div>
       )}
@@ -63,8 +66,16 @@ export function Dashboard({ monthKey, tasks }: Props) {
             </div>
             <div className="h-1.5 w-full overflow-hidden rounded-full bg-slate-800">
               <div
-                className={`h-full rounded-full ${s.rate >= 0.7 ? "bg-green-500" : s.rate >= 0.4 ? "bg-yellow-500" : "bg-red-500"}`}
-                style={{ width: pct(s.rate) }}
+                className="h-full rounded-full"
+                style={{
+                  width: pct(s.rate),
+                  background:
+                    s.rate >= 0.7
+                      ? "linear-gradient(90deg, var(--neon-cyan), var(--neon-violet))"
+                      : s.rate >= 0.4
+                        ? "linear-gradient(90deg, #eab308, var(--neon-pink))"
+                        : "linear-gradient(90deg, #ef4444, var(--neon-pink))",
+                }}
               />
             </div>
           </div>
