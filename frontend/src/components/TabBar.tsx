@@ -20,8 +20,8 @@ export function TabBar({ active, onChange }: Props) {
           onClick={() => onChange(tab.key)}
           className={`flex-1 rounded-lg py-2 text-sm font-medium transition-all ${
             active === tab.key
-              ? "neon-glow-cyan text-slate-950"
-              : "bg-slate-800/80 text-slate-300"
+              ? "neon-glow-cyan text-neutral-950"
+              : "bg-neutral-800/80 text-neutral-300"
           }`}
           style={
             active === tab.key

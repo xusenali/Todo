@@ -24,6 +24,11 @@ body {
   text-shadow: 0 0 8px currentColor, 0 0 22px currentColor;
 }
 
+.font-terminator {
+  font-family: "Black Ops One", "Arial Narrow", sans-serif;
+  letter-spacing: 0.04em;
+}
+
 .neon-border {
   box-shadow: 0 0 0 1px rgba(255, 36, 64, 0.35), 0 0 16px rgba(255, 36, 64, 0.3), 0 0 34px rgba(110, 11, 24, 0.35);
 }

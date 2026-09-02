@@ -167,11 +167,11 @@ export default function App() {
         <NeonOrb />
         <div className="relative">
           <BloodDrip className="absolute left-1/2 top-full h-16 w-24 -translate-x-1/2" count={3} />
-          <h1 className="text-3xl font-semibold text-white neon-text text-red-400">Kunlik reja</h1>
-          <p className="mt-2 text-slate-400">Davom etish uchun kiring</p>
+          <h1 className="font-terminator text-3xl text-white neon-text text-red-400">Kunlik reja</h1>
+          <p className="mt-2 text-neutral-400">Davom etish uchun kiring</p>
         </div>
         {GOOGLE_CLIENT_ID ? (
-          <div className="rounded-2xl bg-slate-900/60 p-3 neon-border backdrop-blur">
+          <div className="rounded-2xl bg-neutral-900/60 p-3 neon-border backdrop-blur">
             <GoogleLoginButton clientId={GOOGLE_CLIENT_ID} onCredential={handleGoogleAuth} />
           </div>
         ) : (
@@ -194,7 +194,7 @@ export default function App() {
 
       <main className="px-4">
         {loading ? (
-          <p className="py-10 text-center text-slate-500">Yuklanmoqda...</p>
+          <p className="py-10 text-center text-neutral-500">Yuklanmoqda...</p>
         ) : tab === "today" ? (
           <TaskList tasks={todayTasks} onToggle={handleToggleToday} onDelete={handleDelete} />
         ) : tab === "grid" ? (
@@ -210,7 +210,7 @@ export default function App() {
       </main>
 
       {tab === "today" && (
-        <div className="fixed bottom-0 left-0 right-0 border-t border-red-500/20 bg-slate-950/90 backdrop-blur">
+        <div className="fixed bottom-0 left-0 right-0 border-t border-red-500/20 bg-neutral-950/90 backdrop-blur">
           <AddTaskForm onAdd={handleAdd} />
         </div>
       )}

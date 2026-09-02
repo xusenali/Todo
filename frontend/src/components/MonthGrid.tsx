@@ -1,5 +1,6 @@
 import type { MonthTask } from "../lib/api";
 import { formatMonthHuman, getMonthDays } from "../lib/date";
+import { BloodDrip } from "./BloodDrip";
 
 interface Props {
   monthKey: string;
@@ -17,17 +18,20 @@ export function MonthGrid({ monthKey, tasks, onNavigate, onToggleToday }: Props)
         <button
           onClick={() => onNavigate(-1)}
           aria-label="Oldingi oy"
-          className="rounded-full p-2 text-slate-400 hover:bg-slate-800 hover:text-white"
+          className="rounded-full p-2 text-neutral-400 hover:bg-neutral-800 hover:text-white"
         >
           <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none">
             <path d="M15 6l-6 6 6 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
           </svg>
         </button>
-        <h2 className="text-base font-medium capitalize text-white neon-text text-red-300">{formatMonthHuman(monthKey)}</h2>
+        <div className="relative">
+          <h2 className="font-terminator text-sm capitalize text-white neon-text text-red-300">{formatMonthHuman(monthKey)}</h2>
+          <BloodDrip className="absolute left-1/2 top-full h-5 w-14 -translate-x-1/2" count={2} />
+        </div>
         <button
           onClick={() => onNavigate(1)}
           aria-label="Keyingi oy"
-          className="rounded-full p-2 text-slate-400 hover:bg-slate-800 hover:text-white"
+          className="rounded-full p-2 text-neutral-400 hover:bg-neutral-800 hover:text-white"
         >
           <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none">
             <path d="M9 6l6 6-6 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
@@ -36,20 +40,20 @@ export function MonthGrid({ monthKey, tasks, onNavigate, onToggleToday }: Props)
       </div>
 
       {tasks.length === 0 ? (
-        <p className="px-1 py-8 text-center text-sm text-slate-500">Hali vazifa yo'q</p>
+        <p className="px-1 py-8 text-center text-sm text-neutral-500">Hali vazifa yo'q</p>
       ) : (
         <div className="overflow-x-auto rounded-xl border border-red-500/10">
           <table className="border-collapse text-sm">
             <thead>
               <tr>
-                <th className="sticky left-0 z-10 min-w-[140px] max-w-[140px] truncate bg-slate-900 px-3 py-2 text-left font-medium text-slate-400">
+                <th className="sticky left-0 z-10 min-w-[140px] max-w-[140px] truncate bg-neutral-900 px-3 py-2 text-left font-medium text-neutral-400">
                   Vazifa
                 </th>
                 {days.map((d) => (
                   <th
                     key={d.dateKey}
                     className={`w-9 min-w-9 px-0 py-1 text-center font-normal ${
-                      d.isToday ? "text-red-300" : "text-slate-500"
+                      d.isToday ? "text-red-300" : "text-neutral-500"
                     }`}
                   >
                     <div className="flex flex-col items-center leading-tight">
@@ -62,8 +66,8 @@ export function MonthGrid({ monthKey, tasks, onNavigate, onToggleToday }: Props)
             </thead>
             <tbody>
               {tasks.map((task) => (
-                <tr key={task.id} className="border-t border-slate-800">
-                  <td className="sticky left-0 z-10 min-w-[140px] max-w-[140px] truncate bg-slate-900 px-3 py-2 text-slate-200">
+                <tr key={task.id} className="border-t border-neutral-800">
+                  <td className="sticky left-0 z-10 min-w-[140px] max-w-[140px] truncate bg-neutral-900 px-3 py-2 text-neutral-200">
                     {task.title}
                   </td>
                   {days.map((d) => {
@@ -93,7 +97,7 @@ export function MonthGrid({ monthKey, tasks, onNavigate, onToggleToday }: Props)
                       );
                     }
                     if (d.isFuture) {
-                      return <td key={d.dateKey} className="text-center text-slate-700">·</td>;
+                      return <td key={d.dateKey} className="text-center text-neutral-700">·</td>;
                     }
                     return (
                       <td key={d.dateKey} className="text-center">
@@ -104,7 +108,7 @@ export function MonthGrid({ monthKey, tasks, onNavigate, onToggleToday }: Props)
                             </svg>
                           </span>
                         ) : (
-                          <span className="mx-auto block h-5 w-5 rounded border-2 border-slate-800" />
+                          <span className="mx-auto block h-5 w-5 rounded border-2 border-neutral-800" />
                         )}
                       </td>
                     );

@@ -8,7 +8,7 @@ interface Props {
 
 export function TaskItem({ task, onToggle, onDelete }: Props) {
   return (
-    <li className="flex items-center gap-3 rounded-xl bg-slate-800/60 px-4 py-3 ring-1 ring-white/5">
+    <li className="flex items-center gap-3 rounded-xl bg-neutral-800/60 px-4 py-3 ring-1 ring-white/5">
       <button
         onClick={() => onToggle(task.id)}
         aria-label={task.done ? "Bajarilmagan deb belgilash" : "Bajarilgan deb belgilash"}
@@ -29,16 +29,16 @@ export function TaskItem({ task, onToggle, onDelete }: Props) {
       </button>
 
       <div className="min-w-0 flex-1">
-        <p className={`truncate text-base ${task.done ? "text-slate-500 line-through" : "text-white"}`}>
+        <p className={`truncate text-base ${task.done ? "text-neutral-500 line-through" : "text-white"}`}>
           {task.title}
         </p>
-        {task.time && <p className="text-xs text-slate-400">{task.time}</p>}
+        {task.time && <p className="text-xs text-neutral-400">{task.time}</p>}
       </div>
 
       <button
         onClick={() => onDelete(task.id)}
         aria-label="Vazifani o'chirish"
-        className="shrink-0 rounded-full p-2 text-slate-500 hover:text-red-400"
+        className="shrink-0 rounded-full p-2 text-neutral-500 hover:text-red-400"
       >
         <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none">
           <path d="M6 6l12 12M18 6L6 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
